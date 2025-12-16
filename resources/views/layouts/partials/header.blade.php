@@ -2,7 +2,8 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
     <div class="container">
       <a class="navbar-brand" href="{{ url('/') }}">
-        <img src="{{ asset('images/logo.png') }}" alt="Logo" height="40">
+        <img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Bootstrap" width="30" height="24">
+
       </a>
 
       <button class="navbar-toggler"
@@ -15,11 +16,11 @@
       <div class="collapse navbar-collapse" id="mainNavbar">
         <x-menu-recursive :items="$headerMenu" class="ms-auto" />
 
-        <div class="ms-3">
-          <a href="#" class="btn btn-primary btn-sm">
-            <i class="fas fa-search"></i>
-          </a>
-        </div>
+{{--        <div class="ms-3">--}}
+{{--          <a href="#" class="btn btn-primary btn-sm">--}}
+{{--            <i class="fas fa-search"></i>--}}
+{{--          </a>--}}
+{{--        </div>--}}
       </div>
     </div>
   </nav>
