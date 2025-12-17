@@ -39,7 +39,9 @@ class Menu extends Model
 
   public function childrenRecursive(): HasMany
   {
-    return $this->children()->with('childrenRecursive');
+    return $this->hasMany(Menu::class, 'parent_id')
+      ->with('childrenRecursive')
+      ->orderBy('order');
   }
 
   // Scopes

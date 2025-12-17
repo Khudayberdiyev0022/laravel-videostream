@@ -36,7 +36,12 @@ class MenuController extends Controller
 
   public function create()
   {
-    $parentMenus = Menu::parents()->orderBy('name')->get();
+    // Barcha parent menuларni childrenлари bilan olish
+    $parentMenus = Menu::with('childrenRecursive')
+      ->parents()
+      ->orderBy('order')
+      ->get();
+
     $locations = $this->availableLocations;
 
     return view('admin.menus.create', compact('parentMenus', 'locations'));
@@ -69,9 +74,12 @@ class MenuController extends Controller
 
   public function edit(Menu $menu)
   {
-    $parentMenus = Menu::where('id', '!=', $menu->id)
+    // Hozirgi menu va uning childrenlarini exclude qilish
+    $parentMenus = Menu::with('childrenRecursive')
+      ->where('id', '!=', $menu->id)
+      ->whereNotIn('id', $this->getMenuAndDescendants($menu))
       ->parents()
-      ->orderBy('name')
+      ->orderBy('order')
       ->get();
 
     $locations = $this->availableLocations;
@@ -107,10 +115,7 @@ class MenuController extends Controller
   public function destroy(Menu $menu)
   {
     $menu->delete();
-
-    return redirect()
-      ->route('admin.menus.index')
-      ->with('success', 'Menu o\'chirildi!');
+    return response()->json(['success' => true]);
   }
 
   public function updateOrder(Request $request)
@@ -126,5 +131,33 @@ class MenuController extends Controller
     }
 
     return response()->json(['success' => true, 'message' => 'Tartib yangilandi!']);
+  }
+
+  /**
+   * Menyu va uning barcha childrenlarining ID'larini olish
+   */
+  private function getMenuAndDescendants(Menu $menu)
+  {
+    $ids = [$menu->id];
+
+    $menu->load('childrenRecursive');
+
+    $this->collectChildrenIds($menu->childrenRecursive, $ids);
+
+    return $ids;
+  }
+
+  /**
+   * Rekursiv ravishda barcha children ID'larni to'plash
+   */
+  private function collectChildrenIds($children, &$ids)
+  {
+    foreach ($children as $child) {
+      $ids[] = $child->id;
+
+      if ($child->childrenRecursive && $child->childrenRecursive->isNotEmpty()) {
+        $this->collectChildrenIds($child->childrenRecursive, $ids);
+      }
+    }
   }
 }

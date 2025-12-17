@@ -74,10 +74,11 @@
               class="form-select @error('parent_id') is-invalid @enderror">
         <option value="">Yuqori daraja (Parent)</option>
         @foreach($parentMenus as $parent)
-          <option value="{{ $parent->id }}"
-              {{ (old('parent_id', $menu->parent_id ?? null) == $parent->id) ? 'selected' : '' }}>
-            {{ $parent->name }}
-          </option>
+          @include('admin.menus.partials.select-option', [
+              'menu' => $parent,
+              'level' => 0,
+              'selected' => old('parent_id', $menu->parent_id ?? null)
+          ])
         @endforeach
       </select>
       @error('parent_id')
