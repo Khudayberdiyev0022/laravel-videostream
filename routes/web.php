@@ -11,9 +11,11 @@ Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 Route::get('/services', [PageController::class, 'services'])->name('services');
 Route::get('/services/{slug}', [PageController::class, 'serviceDetail'])->name('service.detail');
 
+Route::get('videos', [\App\Http\Controllers\VideoController::class, 'index'])->name('videos.index');
+Route::get('videos/{slug}', [\App\Http\Controllers\VideoController::class, 'show'])->name('videos.show');
 // Dinamik sahifa (oxirida qo'yish kerak)
 Route::get('/{slug}', [PageController::class, 'dynamicPage'])->name('page');
-//Route::get('/{slug}', [\App\Http\Controllers\VideoController::class, 'show'])->name('videos.show');
+
 
 Route::prefix('uploads')->group(function () {
   Route::get('/playlist/{folder}/{file}', [\App\Http\Controllers\VideoController::class, 'getVideo'])->name('video.playlist');

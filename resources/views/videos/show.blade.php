@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@push('css')
+@push('styles')
   <link rel="stylesheet" href="https://cdn.vidstack.io/player/theme.css" />
   <link rel="stylesheet" href="https://cdn.vidstack.io/player/video.css" />
 @endpush
@@ -11,7 +11,6 @@
         <h3>{{ $video->title }}</h3>
 
         <media-player title="{{ $video->title }}" src="{{ $videoUrl }}" crossorigin playsinline>
-
           <media-provider>
             <media-poster src="{{ $video->cover }}" class="vds-poster"></media-poster>
           </media-provider>
@@ -26,6 +25,6 @@
 
 @endsection
 
-@push('js')
+@push('scripts')
   <script src="https://cdn.vidstack.io/player" type="module"></script>
 @endpush
