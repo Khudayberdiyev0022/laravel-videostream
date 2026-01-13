@@ -69,4 +69,24 @@ class PageController extends Controller
 
     return view('pages.dynamic', compact('menu', 'breadcrumbs'));
   }
+  public function books()
+  {
+    // URL orqali breadcrumb
+    $breadcrumbs = BreadcrumbHelper::fromUrl('/books');
+
+    return view('pages.books', compact('breadcrumbs'));
+  }
+
+  public function booksShow($filename)
+  {
+    $path = storage_path('books/' . $filename);
+
+    if (!file_exists($path)) {
+      abort(404);
+    }
+
+    return response()->file($path, [
+      'Content-Type' => 'application/pdf',
+    ]);
+  }
 }

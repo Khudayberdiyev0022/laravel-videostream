@@ -10,7 +10,8 @@ Route::get('/about', [PageController::class, 'about'])->name('about');
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 Route::get('/services', [PageController::class, 'services'])->name('services');
 Route::get('/services/{slug}', [PageController::class, 'serviceDetail'])->name('service.detail');
-
+Route::get('/books', [PageController::class, 'books'])->name('books');
+Route::get('/books/{filename}', [PageController::class, 'booksShow'])->name('books.show');
 Route::get('videos', [\App\Http\Controllers\VideoController::class, 'index'])->name('videos.index');
 Route::get('videos/{slug}', [\App\Http\Controllers\VideoController::class, 'show'])->name('videos.show');
 // Dinamik sahifa (oxirida qo'yish kerak)
